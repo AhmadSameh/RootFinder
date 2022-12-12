@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_roots(object):
     def setupUi(self, roots):
         roots.setObjectName("roots")
-        roots.resize(758, 473)
+        roots.resize(794, 473)
         self.IttTbl = QtWidgets.QTableWidget(roots)
         self.IttTbl.setGeometry(QtCore.QRect(10, 50, 541, 411))
         self.IttTbl.setLayoutDirection(QtCore.Qt.LeftToRight)
@@ -62,7 +62,7 @@ class Ui_roots(object):
         self.finish.setGeometry(QtCore.QRect(610, 400, 81, 41))
         self.finish.setObjectName("finish")
         self.expr = QtWidgets.QLabel(roots)
-        self.expr.setGeometry(QtCore.QRect(40, 10, 511, 31))
+        self.expr.setGeometry(QtCore.QRect(10, 10, 481, 31))
         font = QtGui.QFont()
         font.setPointSize(18)
         self.expr.setFont(font)
@@ -75,7 +75,7 @@ class Ui_roots(object):
         self.state.setAlignment(QtCore.Qt.AlignCenter)
         self.state.setObjectName("state")
         self.method = QtWidgets.QLabel(roots)
-        self.method.setGeometry(QtCore.QRect(580, 20, 131, 31))
+        self.method.setGeometry(QtCore.QRect(490, 0, 301, 51))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.method.setFont(font)
@@ -103,4 +103,4 @@ class Ui_roots(object):
         self.finish.setText(_translate("roots", "Okay"))
         self.expr.setText(_translate("roots", "TextLabel"))
         self.state.setText(_translate("roots", "TextLabel"))
-        self.method.setText(_translate("roots", "TextLabel"))
+        self.method.setText(_translate("roots", "Fixed Point (Regula-Falsi)"))

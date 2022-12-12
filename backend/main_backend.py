@@ -23,14 +23,17 @@ class RootFinder(QMainWindow):
         self.ui.equation.setText(self.ui.equation.text() + self.sender().text())
         if self.sender().text() == '^':
             self.expr += '**'
+        elif self.sender().text() == 'sin':
+            self.ui.equation.setText(self.ui.equation.text() + '(')
+            self.expr += 'sin('
+        elif self.sender().text() == 'cos':
+            self.ui.equation.setText(self.ui.equation.text() + '(')
+            self.expr += 'cos('
+        elif self.sender().text() == 'e':
+            self.ui.equation.setText(self.ui.equation.text() + '^(')
+            self.expr += 'exp('
         else:
             self.expr += self.sender().text()
-        if self.sender().text() == 'sin' or self.sender().text() == 'cos':
-            self.ui.equation.setText(self.ui.equation.text() + '(')
-            self.expr += '('
-        if self.sender().text() == 'e':
-            self.ui.equation.setText(self.ui.equation.text() + '^')
-            self.expr += '**'
 
     def backspace(self):
         self.ui.equation.setText(self.ui.equation.text()[:-1])
@@ -53,7 +56,7 @@ class RootFinder(QMainWindow):
             it_num = int(self.ui.MaxItt.text())
             
         for radio_button in self.ui.methodGroup.buttons():
-            if radio_button.isChecked() and (radio_button.text() == 'Bisection' or radio_button.text() == 'False Position'):
+            if radio_button.isChecked() and (radio_button.text() == 'Bisection' or radio_button.text() == 'Fixed Point (Regula-Falsi)'):
                 if self.ui.LowBnd.text() == '':
                     self.ui.LowBnd.setStyleSheet('border: 1px solid red')
                 else:
@@ -73,8 +76,9 @@ class RootFinder(QMainWindow):
                     self.ui.equation.setStyleSheet('background-color: white; color: black;')
                     dlg = RootsDialog(self.expr, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess, self)
                     dlg.exec()
-                except:
+                except SympifyError:
                     self.ui.equation.setStyleSheet('background-color: white; color: black; border: 1px solid red;')
+                    #print(self.expr)
                     
         return
         

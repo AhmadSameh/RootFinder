@@ -8,6 +8,7 @@ import datetime
 from PyQt5.QtWidgets import QDialog, QTableWidgetItem
 from frontend.roots_frontend import Ui_roots
 from backend.Bisection import bisection
+from backend.False_position import False_position
 
 class RootsDialog(QDialog):
     def __init__(self, expr, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess, parent=None):
@@ -16,6 +17,10 @@ class RootsDialog(QDialog):
         self.ui.setupUi(self)
         self.equation = sympify(expr)
         expr = expr.replace('**', '^')
+        # print(expr)
+        # x = symbols('x')
+        # z = expr.subs(x, 0)
+        # print(z)
         self.ui.expr.setText(expr)
         self.ui.state.setText('Calculating...')
         self.ui.finish.clicked.connect(self.end_session)
@@ -25,9 +30,11 @@ class RootsDialog(QDialog):
         roots = precisions = []
         start_time = datetime.datetime.now()
         self.ui.method.setText(method)
+        
         if method == 'Bisection':
             roots, precisions = bisection(expr, lower_bound, higher_bound, it_num, eps)
-
+        elif method == 'Fixed Point (Regula-Falsi)':
+            roots, precisions = False_position(expr, lower_bound, higher_bound, it_num, eps)
         
         end_time = datetime.datetime.now()
         time_diff = (end_time - start_time)

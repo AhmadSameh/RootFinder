@@ -3,10 +3,10 @@ from sympy import *
 
 def bisection(expr, l, u, max_iterations, epislon):
     x = symbols('x')
-    z = expr.subs(x, l) * expr.subs(x, u)
+    z = expr.subs(x, l).evalf() * expr.subs(x, u).evalf()
     if z > 0:
         return [], []
-    if expr.subs(x, l) < 0:
+    if expr.subs(x, l).evalf() < 0:
         l_sign = 0
     else:
         l_sign = 1
@@ -19,7 +19,7 @@ def bisection(expr, l, u, max_iterations, epislon):
     while i < max_iterations:
         mid_temp = mid
         mid = (l + u) / 2
-        if expr.subs(x, mid) < 0:
+        if expr.subs(x, mid).evalf() < 0:
             if(l_sign == 0):
                 l = mid
             else:
