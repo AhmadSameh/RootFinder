@@ -68,11 +68,13 @@ class RootFinder(QMainWindow):
                     method = radio_button.text()
 
             if radio_button.isChecked():
-                final_expr = sympify(self.expr)
-                dlg = RootsDialog(self.expr, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess, self)
-                dlg.exec()
-
+                try:
+                    sympify(self.expr)
+                    self.ui.equation.setStyleSheet('background-color: white; color: black;')
+                    dlg = RootsDialog(self.expr, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess, self)
+                    dlg.exec()
+                except:
+                    self.ui.equation.setStyleSheet('background-color: white; color: black; border: 1px solid red;')
+                    
         return
         
-        
-
