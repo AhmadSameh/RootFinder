@@ -33,15 +33,10 @@ def False_position(expr,l,u,max_iterations,epislon):
         
         print(i,"{0:.8f}".format(Approximations_roots[i]),"{0:.8f}".format(Precision[i]))
         if(Precision[i] < epislon and i != 0):
-            return
+            break
         i=i+1
     return Approximations_roots,Precision
 
-
-if __name__ == "__main__":
-    x=symbols('x')
-    expr=(pow(x,4) - 2 * pow(x,3) -4* pow(x,2)+4*x+4) 
-    False_position(expr,-2,-1,11,.01) 
 
         
 
