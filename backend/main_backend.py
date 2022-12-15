@@ -35,6 +35,7 @@ class RootFinder(QMainWindow):
         self.ui.equation.setText(self.ui.equation.text()[:-1])
 
     def find_roots(self):
+        print(self.expr) 
         dlg = RootsDialog(self)
         dlg.exec()
         
