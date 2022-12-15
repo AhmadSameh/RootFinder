@@ -189,7 +189,7 @@
     </font>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>Text</string>
    </property>
   </widget>
   <widget class="QLabel" name="state">
@@ -207,7 +207,7 @@
     </font>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>Text</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -228,7 +228,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Fixed Point (Regula-Falsi)</string>
+    <string>Text</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
