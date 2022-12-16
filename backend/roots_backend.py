@@ -9,9 +9,10 @@ from PyQt5.QtWidgets import QDialog, QTableWidgetItem
 from frontend.roots_frontend import Ui_roots
 from backend.Bisection import bisection
 from backend.False_position import False_position
+from backend.fixed_point import fixed_point
 
 class RootsDialog(QDialog):
-    def __init__(self, expr, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess, parent=None):
+    def __init__(self, expr, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess, magic, parent=None):
         super().__init__(parent)
         self.ui = Ui_roots()    
         self.ui.setupUi(self)
@@ -24,23 +25,24 @@ class RootsDialog(QDialog):
         self.ui.expr.setText(expr)
         self.ui.state.setText('Calculating...')
         self.ui.finish.clicked.connect(self.end_session)
-        self.find_roots(self.equation, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess)
+        self.find_roots(self.equation, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess,magic)
 
-    def find_roots(self, expr, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess):
+    def find_roots(self, expr, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess,magic):
         roots = precisions = []
         start_time = datetime.datetime.now()
         self.ui.method.setText(method)
         
         if method == 'Bisection':
             roots, precisions = bisection(expr, lower_bound, higher_bound, it_num, eps)
-        elif method == 'Fixed Point (Regula-Falsi)':
+        elif method == 'False Position (Regula-Falsi)':
             roots, precisions = False_position(expr, lower_bound, higher_bound, it_num, eps)
-        
+        elif method == 'Fixed Point':
+            roots,precisions = fixed_point(magic,it_num,eps,first_guess)
         end_time = datetime.datetime.now()
         time_diff = (end_time - start_time)
         execution_time = time_diff.total_seconds() * 1000
         if len(roots) == 0:
-            if method == 'Bisection' or method == 'Fixed Point (Regula-Falsi)':
+            if method == 'Bisection' or method == 'False Position (Regula-Falsi)':
                 self.ui.expr.setText('Higher and lower bounds have same sign')
             self.ui.state.setText('ERROR')
             self.ui.state.setStyleSheet('color: red')

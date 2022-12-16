@@ -43,7 +43,7 @@ class RootFinder(QMainWindow):
         self.expr = self.expr[:-1]
 
     def change_box_visibility(self):
-        if self.sender().text() == 'False Position':
+        if self.sender().text() == 'Fixed Point':
             self.ui.MgcFnANDScndGs.setVisible(True)
             self.ui.MgcFnANDScndGs.setPlaceholderText('Mgc Fn.')
         elif self.sender().text() == 'Secant':
@@ -55,7 +55,7 @@ class RootFinder(QMainWindow):
     def find_roots(self):
         ok_for_submit = False
         lower_bound = higher_bound = first_guess = second_guess = None
-        method = ''
+        method = magic = ''
         
         if self.ui.Eps.text() == '':
             self.ui.Eps.setStyleSheet('border: 1px solid red')
@@ -71,7 +71,7 @@ class RootFinder(QMainWindow):
             
         for radio_button in self.ui.methodGroup.buttons():
             if radio_button.isChecked():
-                if radio_button.text() == 'Bisection' or radio_button.text() == 'Fixed Point (Regula-Falsi)':
+                if radio_button.text() == 'Bisection' or radio_button.text() == 'False Position (Regula-Falsi)':
                     if self.ui.LowBnd.text() == '':
                         ok_for_submit = False
                         self.ui.LowBnd.setStyleSheet('border: 1px solid red')
@@ -89,19 +89,22 @@ class RootFinder(QMainWindow):
                         higher_bound = float(self.ui.HiBnd.text())
                         method = radio_button.text()
 
-                if radio_button.text() == 'False Position':
+                if radio_button.text() == 'Fixed Point':
                     if self.ui.MgcFnANDScndGs.text() == '':
                         ok_for_submit = False
                         self.ui.MgcFnANDScndGs.setStyleSheet('border: 1px solid red')
                     else:
                         ok_for_submit = True
+                        method = radio_button.text()
+                        magic = self.ui.MgcFnANDScndGs.text()
+                        first_guess = self.ui.FrstGs.text()                
                         self.ui.MgcFnANDScndGs.setStyleSheet('')
 
                 if ok_for_submit:
                     try:
                         sympify(self.expr)
                         self.ui.equation.setStyleSheet('background-color: white; color: black;')
-                        dlg = RootsDialog(self.expr, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess, self)
+                        dlg = RootsDialog(self.expr, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess, magic ,self)
                         dlg.exec()
                     except SympifyError:
                         self.ui.equation.setStyleSheet('background-color: white; color: black; border: 1px solid red;')
