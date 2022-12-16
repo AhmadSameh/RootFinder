@@ -366,7 +366,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>False Position</string>
+     <string>Fixed Point</string>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">methodGroup</string>
@@ -377,12 +377,12 @@
      <rect>
       <x>230</x>
       <y>240</y>
-      <width>201</width>
+      <width>231</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Fixed Point (Regula-Falsi)</string>
+     <string>False Position (Regula-Falsi)</string>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">methodGroup</string>
@@ -436,7 +436,7 @@
    <widget class="QPushButton" name="dltBtn">
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>420</x>
       <y>10</y>
       <width>30</width>
       <height>30</height>
@@ -657,12 +657,38 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
+   <widget class="QPushButton" name="CnclBtn">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>10</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>C</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pi">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>170</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>π</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="methodGroup"/>
   <buttongroup name="buttonGroup"/>
+  <buttongroup name="methodGroup"/>
  </buttongroups>
 </ui>

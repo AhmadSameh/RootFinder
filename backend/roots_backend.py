@@ -37,22 +37,28 @@ class RootsDialog(QDialog):
         elif method == 'False Position (Regula-Falsi)':
             roots, precisions = False_position(expr, lower_bound, higher_bound, it_num, eps)
         elif method == 'Fixed Point':
-            roots,precisions = fixed_point(magic,it_num,eps,first_guess)
+            roots,precisions = fixed_point(magic, it_num, eps, first_guess)
+
         end_time = datetime.datetime.now()
         time_diff = (end_time - start_time)
         execution_time = time_diff.total_seconds() * 1000
+        
         if len(roots) == 0:
             if method == 'Bisection' or method == 'False Position (Regula-Falsi)':
                 self.ui.expr.setText('Higher and lower bounds have same sign')
+            elif method == 'Fixed Point':
+                self.ui.expr.setText('Magic function does not converge')
             self.ui.state.setText('ERROR')
             self.ui.state.setStyleSheet('color: red')
             self.ui.expr.setStyleSheet('color: red')
         else:
             self.ui.IttTbl.setRowCount(len(roots))
+
             for i in range(len(roots)):
                 self.ui.IttTbl.setItem(i, 0, QTableWidgetItem(str(i + 1)))
                 self.ui.IttTbl.setItem(i, 1, QTableWidgetItem(str(round(roots[i], 10))))
                 self.ui.IttTbl.setItem(i, 2, QTableWidgetItem(str(round(precisions[i], 10))))
+                
             self.ui.ans.setText(str(round(roots[len(roots) - 1], 10)))
             self.ui.precision.setText(str(round(precisions[len(precisions) - 1], 10)))
             self.ui.state.setText('Done!!!')

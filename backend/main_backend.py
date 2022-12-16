@@ -13,6 +13,7 @@ class RootFinder(QMainWindow):
         self.ui = Ui_RootFinder()
         self.ui.setupUi(self)
         self.ui.MgcFnANDScndGs.setVisible(False)
+        self.ui.CnclBtn.clicked.connect(self.cancel_expr)
         for button in self.ui.buttonGroup.buttons():
             button.clicked.connect(self.add_value)
         for button in self.ui.methodGroup.buttons():
@@ -35,12 +36,21 @@ class RootFinder(QMainWindow):
         elif self.sender().text() == 'e':
             self.ui.equation.setText(self.ui.equation.text() + '^(')
             self.expr += 'exp('
+        elif self.sender().text() == 'π':
+            self.expr += 'pi'
         else:
             self.expr += self.sender().text()
 
     def backspace(self):
+        if self.ui.equation.text()[:-1] == '^' or self.ui.equation.text()[:-1] == 'π':
+            self.expr = self.expr[:-2]
+        else:
+            self.expr = self.expr[:-1]
         self.ui.equation.setText(self.ui.equation.text()[:-1])
-        self.expr = self.expr[:-1]
+
+    def cancel_expr(self):
+        self.ui.equation.setText('')
+        self.expr = ''
 
     def change_box_visibility(self):
         if self.sender().text() == 'Fixed Point':
@@ -53,17 +63,19 @@ class RootFinder(QMainWindow):
             self.ui.MgcFnANDScndGs.setVisible(False)
 
     def find_roots(self):
-        ok_for_submit = False
+        ok_for_submit = True
         lower_bound = higher_bound = first_guess = second_guess = None
         method = magic = ''
         
         if self.ui.Eps.text() == '':
+            ok_for_submit = False
             self.ui.Eps.setStyleSheet('border: 1px solid red')
         else:
             self.ui.Eps.setStyleSheet('')
             eps = float(self.ui.Eps.text())
 
         if self.ui.MaxItt.text() == '':
+            ok_for_submit = False
             self.ui.MaxItt.setStyleSheet('border: 1px solid red')
         else:
             self.ui.MaxItt.setStyleSheet('')
@@ -76,13 +88,11 @@ class RootFinder(QMainWindow):
                         ok_for_submit = False
                         self.ui.LowBnd.setStyleSheet('border: 1px solid red')
                     else:
-                        ok_for_submit = True
                         self.ui.LowBnd.setStyleSheet('')
                     if self.ui.HiBnd.text() == '':
                         ok_for_submit = False
                         self.ui.HiBnd.setStyleSheet('border: 1px solid red')
                     else:
-                        ok_for_submit = True
                         self.ui.HiBnd.setStyleSheet('')
                     if self.ui.LowBnd.text() != '' and self.ui.HiBnd.text() != '':
                         lower_bound = float(self.ui.LowBnd.text())
@@ -90,15 +100,15 @@ class RootFinder(QMainWindow):
                         method = radio_button.text()
 
                 if radio_button.text() == 'Fixed Point':
-                    if self.ui.MgcFnANDScndGs.text() == '':
-                        ok_for_submit = False
-                        self.ui.MgcFnANDScndGs.setStyleSheet('border: 1px solid red')
-                    else:
-                        ok_for_submit = True
+                    try:
+                        sympify(self.ui.MgcFnANDScndGs.text())
                         method = radio_button.text()
                         magic = self.ui.MgcFnANDScndGs.text()
                         first_guess = self.ui.FrstGs.text()                
                         self.ui.MgcFnANDScndGs.setStyleSheet('')
+                    except:
+                        self.ui.MgcFnANDScndGs.setStyleSheet('border: 1px solid red')
+                        ok_for_submit = False
 
                 if ok_for_submit:
                     try:
