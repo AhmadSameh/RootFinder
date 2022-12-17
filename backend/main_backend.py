@@ -109,6 +109,31 @@ class RootFinder(QMainWindow):
                     except:
                         self.ui.MgcFnANDScndGs.setStyleSheet('border: 1px solid red')
                         ok_for_submit = False
+                if radio_button.text() == 'Newton\'s Raphson':
+                    if self.ui.FrstGs.text() == '':
+                        ok_for_submit = False
+                        self.ui.FrstGs.setStyleSheet('border: 1px solid red')
+                    else:
+                        self.ui.FrstGs.setStyleSheet('')
+                    if self.ui.FrstGs.text() != '':
+                        first_guess = float(self.ui.FrstGs.text())
+                        method = radio_button.text()
+                if radio_button.text() == 'Secant':
+                    if self.ui.FrstGs.text() == '':
+                        ok_for_submit = False
+                        self.ui.FrstGs.setStyleSheet('border: 1px solid red')
+                    else:
+                        self.ui.FrstGs.setStyleSheet('')
+                    if self.ui.MgcFnANDScndGs.text() == '':
+                        ok_for_submit = False
+                        self.ui.MgcFnANDScndGs.setStyleSheet('border: 1px solid red')
+                    else:
+                        self.ui.MgcFnANDScndGs.setStyleSheet('')
+                    if self.ui.FrstGs.text() != '' and self.ui.MgcFnANDScndGs.text() != '':
+                        first_guess = float(self.ui.FrstGs.text())
+                        second_guess = float(self.ui.MgcFnANDScndGs.text())
+                        method = radio_button.text()
+
 
                 if ok_for_submit:
                     try:

@@ -1,4 +1,6 @@
 import sys
+
+from backend.Secant import Secant
 sys.path.append('../frontend')
 sys.path.append('../backend')
 
@@ -10,6 +12,7 @@ from frontend.roots_frontend import Ui_roots
 from backend.Bisection import bisection
 from backend.False_position import False_position
 from backend.fixed_point import fixed_point
+from backend.Newton_Rhapson import Newton_Rhapson
 
 class RootsDialog(QDialog):
     def __init__(self, expr, method, eps, it_num, lower_bound, higher_bound, first_guess, second_guess, magic, parent=None):
@@ -38,6 +41,10 @@ class RootsDialog(QDialog):
             roots, precisions = False_position(expr, lower_bound, higher_bound, it_num, eps)
         elif method == 'Fixed Point':
             roots,precisions = fixed_point(magic, it_num, eps, first_guess)
+        elif method == 'Newton\'s Raphson':
+            roots,precisions = Newton_Rhapson(expr,first_guess,it_num,eps)
+        elif method == 'Secant':
+            roots,precisions = Secant(expr,first_guess,second_guess,it_num,eps)
 
         end_time = datetime.datetime.now()
         time_diff = (end_time - start_time)
