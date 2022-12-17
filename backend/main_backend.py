@@ -66,20 +66,14 @@ class RootFinder(QMainWindow):
         ok_for_submit = True
         lower_bound = higher_bound = first_guess = second_guess = None
         method = magic = ''
-        
-        if self.ui.Eps.text() == '':
-            ok_for_submit = False
-            self.ui.Eps.setStyleSheet('border: 1px solid red')
-        else:
-            self.ui.Eps.setStyleSheet('')
-            eps = float(self.ui.Eps.text())
 
+        eps = 0.00001
+        it_num = 50
+
+        if self.ui.Eps.text() != '':
+            eps = float(self.ui.Eps.text())
         if self.ui.MaxItt.text() == '':
-            ok_for_submit = False
-            self.ui.MaxItt.setStyleSheet('border: 1px solid red')
-        else:
-            self.ui.MaxItt.setStyleSheet('')
-            it_num = int(self.ui.MaxItt.text())
+            it_num = int(self.ui.MaxItt.text())            
             
         for radio_button in self.ui.methodGroup.buttons():
             if radio_button.isChecked():
@@ -118,6 +112,7 @@ class RootFinder(QMainWindow):
                     if self.ui.FrstGs.text() != '':
                         first_guess = float(self.ui.FrstGs.text())
                         method = radio_button.text()
+                        
                 if radio_button.text() == 'Secant':
                     if self.ui.FrstGs.text() == '':
                         ok_for_submit = False
